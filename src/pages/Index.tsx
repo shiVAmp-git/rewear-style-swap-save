@@ -510,7 +510,7 @@ const Index = () => {
                   </div>
                   <div className="flex justify-between">
                     <span>Avg. Response Time</span>
-                    <span className="font-semibold">< 2 hours</span>
+                    <span className="font-semibold">2 hours</span>
                   </div>
                 </div>
                 <Button 
