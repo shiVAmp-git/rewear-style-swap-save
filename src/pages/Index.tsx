@@ -3,46 +3,148 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Recycle, Heart, Shield, Users, Leaf, ArrowRight, Star, TrendingUp } from "lucide-react";
+import { Recycle, Heart, Shield, Users, Leaf, ArrowRight, Star, TrendingUp, MapPin, Clock } from "lucide-react";
 
 const Index = () => {
   const featuredItems = [
     {
       id: 1,
-      image: "/placeholder.svg",
-      title: "Vintage Denim Jacket",
+      image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400",
+      title: "Vintage Levi's Denim Jacket",
       price: "$24",
       originalPrice: "$89",
       size: "M",
       brand: "Levi's",
       seller: "Sarah M.",
+      location: "Brooklyn, NY",
       rating: 4.8,
       condition: "Excellent",
+      postedTime: "2 hours ago",
+      likes: 23,
+      category: "Jackets"
     },
     {
       id: 2,
-      image: "/placeholder.svg",
-      title: "Floral Summer Dress",
+      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
+      title: "Floral Summer Maxi Dress",
       price: "$18",
       originalPrice: "$65",
       size: "S",
       brand: "Zara",
       seller: "Emma K.",
+      location: "Austin, TX",
       rating: 4.9,
       condition: "Like New",
+      postedTime: "5 hours ago",
+      likes: 31,
+      category: "Dresses"
     },
     {
       id: 3,
-      image: "/placeholder.svg",
-      title: "Designer Wool Coat",
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400",
+      title: "Designer Wool Peacoat",
       price: "$85",
       originalPrice: "$320",
       size: "L",
       brand: "COS",
       seller: "Maya R.",
+      location: "Seattle, WA",
       rating: 5.0,
       condition: "Very Good",
+      postedTime: "1 day ago",
+      likes: 45,
+      category: "Coats"
     },
+    {
+      id: 4,
+      image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400",
+      title: "Retro Band T-Shirt",
+      price: "$12",
+      originalPrice: "$35",
+      size: "M",
+      brand: "Vintage",
+      seller: "Alex P.",
+      location: "Portland, OR",
+      rating: 4.7,
+      condition: "Good",
+      postedTime: "3 hours ago",
+      likes: 18,
+      category: "T-Shirts"
+    },
+    {
+      id: 5,
+      image: "https://images.unsplash.com/photo-1582418702294-e7474277d445?w=400",
+      title: "High-Waisted Mom Jeans",
+      price: "$22",
+      originalPrice: "$78",
+      size: "28",
+      brand: "Urban Outfitters",
+      seller: "Jess L.",
+      location: "Chicago, IL",
+      rating: 4.6,
+      condition: "Excellent",
+      postedTime: "6 hours ago",
+      likes: 27,
+      category: "Jeans"
+    },
+    {
+      id: 6,
+      image: "https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400",
+      title: "Silk Button-Up Blouse",
+      price: "$32",
+      originalPrice: "$125",
+      size: "S",
+      brand: "& Other Stories",
+      seller: "Nina T.",
+      location: "Miami, FL",
+      rating: 4.8,
+      condition: "Like New",
+      postedTime: "4 hours ago",
+      likes: 19,
+      category: "Blouses"
+    }
+  ];
+
+  const testimonials = [
+    {
+      id: 1,
+      name: "Jessica Chen",
+      location: "San Francisco, CA",
+      rating: 5,
+      comment: "I've saved over $300 and found amazing vintage pieces I couldn't find anywhere else!",
+      avatar: "/placeholder.svg",
+      itemsBought: 12,
+      itemsSold: 8
+    },
+    {
+      id: 2,
+      name: "Marcus Johnson",
+      location: "New York, NY",
+      rating: 5,
+      comment: "The community is incredible. Every seller I've worked with has been honest and friendly.",
+      avatar: "/placeholder.svg",
+      itemsBought: 6,
+      itemsSold: 15
+    },
+    {
+      id: 3,
+      name: "Aria Patel",
+      location: "Los Angeles, CA",
+      rating: 5,
+      comment: "Love knowing my fashion choices are helping the environment. Plus, the styles are unique!",
+      avatar: "/placeholder.svg",
+      itemsBought: 9,
+      itemsSold: 11
+    }
+  ];
+
+  const categories = [
+    { name: "Dresses", count: 1234, icon: "👗" },
+    { name: "Jeans", count: 892, icon: "👖" },
+    { name: "Jackets", count: 567, icon: "🧥" },
+    { name: "T-Shirts", count: 1456, icon: "👕" },
+    { name: "Shoes", count: 743, icon: "👠" },
+    { name: "Accessories", count: 398, icon: "👜" }
   ];
 
   const stats = [
@@ -50,6 +152,13 @@ const Index = () => {
     { number: "200K+", label: "Items Swapped" },
     { number: "1M+", label: "Pounds of Waste Saved" },
     { number: "98%", label: "Satisfaction Rate" },
+  ];
+
+  const recentActivity = [
+    { user: "Sophie M.", action: "swapped", item: "vintage blazer", time: "5 min ago" },
+    { user: "David K.", action: "sold", item: "designer sneakers", time: "12 min ago" },
+    { user: "Luna R.", action: "bought", item: "summer dress", time: "18 min ago" },
+    { user: "Chris T.", action: "swapped", item: "leather jacket", time: "25 min ago" }
   ];
 
   return (
@@ -125,6 +234,40 @@ const Index = () => {
                 </div>
               ))}
             </div>
+
+            {/* Recent Activity */}
+            <div className="mt-12 bg-white/50 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse mr-2"></div>
+                Live Activity
+              </h3>
+              <div className="space-y-2">
+                {recentActivity.map((activity, index) => (
+                  <div key={index} className="flex items-center justify-between text-sm text-gray-600">
+                    <span><strong>{activity.user}</strong> {activity.action} a {activity.item}</span>
+                    <span className="text-gray-400">{activity.time}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Categories */}
+      <section className="py-12 bg-white/70">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">Shop by Category</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {categories.map((category, index) => (
+              <Card key={index} className="hover:shadow-lg transition-all duration-300 cursor-pointer group">
+                <CardContent className="p-6 text-center">
+                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform">{category.icon}</div>
+                  <h3 className="font-semibold text-gray-900 mb-1">{category.name}</h3>
+                  <p className="text-sm text-gray-600">{category.count} items</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -183,7 +326,7 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredItems.map((item) => (
               <Card key={item.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 hover:scale-105 border-0 shadow-lg bg-white">
                 <div className="relative">
@@ -202,13 +345,17 @@ const Index = () => {
                   >
                     <Heart className="w-4 h-4" />
                   </Button>
+                  <div className="absolute bottom-4 right-4 bg-white/90 rounded-full px-2 py-1 text-xs flex items-center">
+                    <Heart className="w-3 h-3 text-red-500 mr-1" />
+                    {item.likes}
+                  </div>
                 </div>
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-bold text-lg text-gray-900">{item.title}</h3>
                     <Badge variant="outline" className="text-xs">{item.size}</Badge>
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">{item.brand}</p>
+                  <p className="text-gray-600 text-sm mb-3">{item.brand} • {item.category}</p>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
                       <span className="text-2xl font-bold text-green-600">{item.price}</span>
@@ -219,7 +366,7 @@ const Index = () => {
                       <span className="text-sm font-medium">{item.rating}</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center space-x-2">
                       <Avatar className="w-6 h-6">
                         <AvatarImage src="/placeholder.svg" />
@@ -228,6 +375,16 @@ const Index = () => {
                         </AvatarFallback>
                       </Avatar>
                       <span className="text-sm text-gray-600">{item.seller}</span>
+                    </div>
+                    <div className="flex items-center text-xs text-gray-500">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      {item.location}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-xs text-gray-500">
+                      <Clock className="w-3 h-3 mr-1" />
+                      {item.postedTime}
                     </div>
                     <Button size="sm" className="bg-green-500 hover:bg-green-600 text-white">
                       View Item
@@ -250,8 +407,53 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Community Testimonials */}
+      <section id="community" className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">What Our Community Says</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Real stories from real users who are making a difference
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial) => (
+              <Card key={testimonial.id} className="bg-gradient-to-br from-green-50 to-blue-50 border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+                <CardContent className="p-8">
+                  <div className="flex items-center mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 mb-6 italic leading-relaxed">"{testimonial.comment}"</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Avatar>
+                        <AvatarImage src={testimonial.avatar} />
+                        <AvatarFallback className="bg-green-100 text-green-600">
+                          {testimonial.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                        <div className="text-sm text-gray-600">{testimonial.location}</div>
+                      </div>
+                    </div>
+                    <div className="text-right text-xs text-gray-500">
+                      <div>{testimonial.itemsBought} bought</div>
+                      <div>{testimonial.itemsSold} sold</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Trust & Safety */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gradient-to-r from-green-50 to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
@@ -297,6 +499,20 @@ const Index = () => {
                 <p className="text-green-50 mb-6">
                   Connect with fashion lovers who care about sustainability and style.
                 </p>
+                <div className="space-y-4 mb-6">
+                  <div className="flex justify-between">
+                    <span>Active Members</span>
+                    <span className="font-semibold">50,000+</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Items Listed Daily</span>
+                    <span className="font-semibold">2,500+</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Avg. Response Time</span>
+                    <span className="font-semibold">2 hours</span>
+                  </div>
+                </div>
                 <Button 
                   size="lg" 
                   className="bg-white text-green-600 hover:bg-green-50 w-full shadow-lg hover:shadow-xl transition-all duration-300"
