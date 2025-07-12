@@ -9,7 +9,7 @@ const Index = () => {
   const featuredItems = [
     {
       id: 1,
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400",
       title: "Vintage Levi's Denim Jacket",
       price: "$24",
       originalPrice: "$89",
@@ -25,7 +25,7 @@ const Index = () => {
     },
     {
       id: 2,
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400",
       title: "Floral Summer Maxi Dress",
       price: "$18",
       originalPrice: "$65",
@@ -41,7 +41,7 @@ const Index = () => {
     },
     {
       id: 3,
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400",
       title: "Designer Wool Peacoat",
       price: "$85",
       originalPrice: "$320",
@@ -57,7 +57,7 @@ const Index = () => {
     },
     {
       id: 4,
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=400",
       title: "Retro Band T-Shirt",
       price: "$12",
       originalPrice: "$35",
@@ -73,7 +73,7 @@ const Index = () => {
     },
     {
       id: 5,
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1582418702294-e7474277d445?w=400",
       title: "High-Waisted Mom Jeans",
       price: "$22",
       originalPrice: "$78",
@@ -89,7 +89,7 @@ const Index = () => {
     },
     {
       id: 6,
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=400",
       title: "Silk Button-Up Blouse",
       price: "$32",
       originalPrice: "$125",
