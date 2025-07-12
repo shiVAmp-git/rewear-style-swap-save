@@ -1,19 +1,43 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Recycle, Plus, DollarSign, Package, Heart, Star, MapPin, Edit2, Settings, MessageCircle, TrendingUp, Eye } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Recycle, Plus, DollarSign, Package, Heart, Star, MapPin, Edit2, Settings, MessageCircle, TrendingUp, Eye, LogOut } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {
-  const user = {
-    name: "Sarah Mitchell",
-    username: "@sarahm_vintage",
-    avatar: "/placeholder.svg",
-    location: "Brooklyn, NY",
-    memberSince: "March 2022",
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast({
+        title: "Signed out successfully",
+        description: "You have been logged out of your account.",
+      });
+      navigate('/');
+    } catch (error) {
+      toast({
+        title: "Error signing out",
+        description: "There was an issue signing you out. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Use real user data where available
+  const userData = {
+    name: user?.user_metadata?.full_name || "User",
+    username: `@${user?.email?.split('@')[0] || 'user'}`,
+    avatar: user?.user_metadata?.avatar_url || "/placeholder.svg",
+    email: user?.email || "",
+    location: "Location not set",
+    memberSince: user?.created_at ? new Date(user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : "Recently",
     rating: 4.8,
     totalReviews: 156,
     verified: true,
@@ -111,6 +135,14 @@ const Dashboard = () => {
                   List Item
                 </Button>
               </Link>
+              <Button 
+                variant="outline" 
+                onClick={handleSignOut}
+                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
             </div>
           </div>
         </div>
@@ -123,24 +155,25 @@ const Dashboard = () => {
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
               <div className="flex items-center space-x-6 mb-6 md:mb-0">
                 <Avatar className="w-24 h-24">
-                  <AvatarImage src={user.avatar} />
+                  <AvatarImage src={userData.avatar} />
                   <AvatarFallback className="bg-green-100 text-green-600 text-2xl">
-                    {user.name.split(' ').map(n => n[0]).join('')}
+                    {userData.name.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-1">{user.name}</h1>
-                  <p className="text-gray-600 mb-2">{user.username}</p>
+                  <h1 className="text-3xl font-bold text-gray-900 mb-1">{userData.name}</h1>
+                  <p className="text-gray-600 mb-2">{userData.username}</p>
+                  <p className="text-sm text-gray-500 mb-2">{userData.email}</p>
                   <div className="flex items-center space-x-4 text-sm text-gray-600">
                     <div className="flex items-center">
                       <MapPin className="w-4 h-4 mr-1" />
-                      {user.location}
+                      {userData.location}
                     </div>
                     <div className="flex items-center">
                       <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
-                      {user.rating} ({user.totalReviews} reviews)
+                      {userData.rating} ({userData.totalReviews} reviews)
                     </div>
-                    <span>Member since {user.memberSince}</span>
+                    <span>Member since {userData.memberSince}</span>
                   </div>
                 </div>
               </div>
@@ -165,7 +198,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Total Earnings</p>
-                  <p className="text-2xl font-bold text-green-600">${user.stats.totalEarnings}</p>
+                  <p className="text-2xl font-bold text-green-600">${userData.stats.totalEarnings}</p>
                 </div>
                 <DollarSign className="w-8 h-8 text-green-500" />
               </div>
@@ -176,7 +209,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Items Sold</p>
-                  <p className="text-2xl font-bold text-blue-600">{user.stats.itemsSold}</p>
+                  <p className="text-2xl font-bold text-blue-600">{userData.stats.itemsSold}</p>
                 </div>
                 <Package className="w-8 h-8 text-blue-500" />
               </div>
@@ -187,7 +220,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Active Listings</p>
-                  <p className="text-2xl font-bold text-orange-600">{user.stats.itemsListed}</p>
+                  <p className="text-2xl font-bold text-orange-600">{userData.stats.itemsListed}</p>
                 </div>
                 <TrendingUp className="w-8 h-8 text-orange-500" />
               </div>
@@ -198,7 +231,7 @@ const Dashboard = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Followers</p>
-                  <p className="text-2xl font-bold text-purple-600">{user.stats.followers}</p>
+                  <p className="text-2xl font-bold text-purple-600">{userData.stats.followers}</p>
                 </div>
                 <Heart className="w-8 h-8 text-purple-500" />
               </div>
