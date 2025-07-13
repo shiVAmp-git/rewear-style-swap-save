@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -6,87 +5,33 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Recycle, Users, Package, DollarSign, TrendingUp, Search, Filter, Shield, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
+import { Recycle, Users, Package, DollarSign, TrendingUp, Search, Shield, AlertTriangle, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Admin = () => {
+  const { profile, signOut } = useAuth();
+
+  // These will be replaced with real data from Supabase queries
   const stats = {
-    totalUsers: 12543,
-    activeListings: 3421,
-    totalSales: 89567,
-    revenue: 234567,
-    reportsOpen: 23,
-    reportsResolved: 156
+    totalUsers: 0,
+    activeListings: 0,
+    totalSales: 0,
+    revenue: 0,
+    reportsOpen: 0,
+    reportsResolved: 0
   };
 
   const recentUsers = [
-    {
-      id: 1,
-      name: "Emma Johnson",
-      email: "emma.j@email.com",
-      joinDate: "2024-01-15",
-      status: "active",
-      itemsSold: 12,
-      rating: 4.8,
-      avatar: "/placeholder.svg"
-    },
-    {
-      id: 2,
-      name: "Michael Chen",
-      email: "m.chen@email.com",
-      joinDate: "2024-01-14",
-      status: "pending",
-      itemsSold: 0,
-      rating: 0,
-      avatar: "/placeholder.svg"
-    },
-    {
-      id: 3,
-      name: "Sarah Williams",
-      email: "sarah.w@email.com",
-      joinDate: "2024-01-13",
-      status: "active",
-      itemsSold: 34,
-      rating: 4.9,
-      avatar: "/placeholder.svg"
-    }
+    // Will be populated from database
   ];
 
   const flaggedItems = [
-    {
-      id: 1,
-      title: "Designer Handbag",
-      seller: "Jane Doe",
-      reason: "Suspected counterfeit",
-      reportDate: "2024-01-15",
-      status: "pending",
-      image: "https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=300"
-    },
-    {
-      id: 2,
-      title: "Vintage Jacket",
-      seller: "John Smith",
-      reason: "Misleading description",
-      reportDate: "2024-01-14",
-      status: "under-review",
-      image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=300"
-    },
-    {
-      id: 3,
-      title: "Summer Dress",
-      seller: "Alice Brown",
-      reason: "Wrong category",
-      reportDate: "2024-01-13",
-      status: "resolved",
-      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=300"
-    }
+    // Will be populated from database
   ];
 
   const systemActivity = [
-    { type: "user", action: "New user registration", user: "Emma Johnson", time: "5 min ago" },
-    { type: "sale", action: "Item sold", item: "Vintage Jacket - $45", time: "12 min ago" },
-    { type: "report", action: "Item reported", item: "Designer Handbag", time: "1 hour ago" },
-    { type: "admin", action: "Admin action", detail: "User account suspended", time: "2 hours ago" }
+    // Will be populated from database
   ];
 
   return (
@@ -103,13 +48,13 @@ const Admin = () => {
                 ReWear Admin
               </span>
             </Link>
-            <div className="flex space-x-3">
+            <div className="flex items-center space-x-3">
+              <span className="text-sm text-gray-600">Welcome, {profile?.full_name}</span>
               <Link to="/dashboard">
                 <Button variant="ghost" className="text-green-600 hover:text-green-700">Back to Site</Button>
               </Link>
-              <Button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white">
-                <Shield className="w-4 h-4 mr-2" />
-                Admin Panel
+              <Button variant="outline" onClick={signOut}>
+                Sign Out
               </Button>
             </div>
           </div>
@@ -130,45 +75,49 @@ const Admin = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Total Users</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.totalUsers.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-blue-600">{stats.totalUsers}</p>
                 </div>
                 <Users className="w-8 h-8 text-blue-500" />
               </div>
             </CardContent>
           </Card>
+          
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Active Listings</p>
-                  <p className="text-2xl font-bold text-green-600">{stats.activeListings.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-green-600">{stats.activeListings}</p>
                 </div>
                 <Package className="w-8 h-8 text-green-500" />
               </div>
             </CardContent>
           </Card>
+          
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Total Sales</p>
-                  <p className="text-2xl font-bold text-orange-600">{stats.totalSales.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-orange-600">{stats.totalSales}</p>
                 </div>
                 <TrendingUp className="w-8 h-8 text-orange-500" />
               </div>
             </CardContent>
           </Card>
+          
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-gray-600 mb-1">Revenue</p>
-                  <p className="text-2xl font-bold text-purple-600">${stats.revenue.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-purple-600">${stats.revenue}</p>
                 </div>
                 <DollarSign className="w-8 h-8 text-purple-500" />
               </div>
             </CardContent>
           </Card>
+          
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -180,6 +129,7 @@ const Admin = () => {
               </div>
             </CardContent>
           </Card>
+          
           <Card>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
@@ -225,55 +175,10 @@ const Admin = () => {
             </div>
             
             <Card>
-              <CardContent className="p-0">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead className="bg-gray-50 border-b">
-                      <tr>
-                        <th className="text-left p-4 font-medium text-gray-900">User</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Join Date</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Status</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Items Sold</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Rating</th>
-                        <th className="text-left p-4 font-medium text-gray-900">Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {recentUsers.map((user) => (
-                        <tr key={user.id} className="border-b hover:bg-gray-50">
-                          <td className="p-4">
-                            <div className="flex items-center space-x-3">
-                              <Avatar className="w-10 h-10">
-                                <AvatarImage src={user.avatar} />
-                                <AvatarFallback className="bg-green-100 text-green-600">
-                                  {user.name.split(' ').map(n => n[0]).join('')}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div>
-                                <p className="font-medium text-gray-900">{user.name}</p>
-                                <p className="text-sm text-gray-600">{user.email}</p>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="p-4 text-gray-600">{user.joinDate}</td>
-                          <td className="p-4">
-                            <Badge variant={user.status === 'active' ? 'default' : 'secondary'}>
-                              {user.status}
-                            </Badge>
-                          </td>
-                          <td className="p-4 text-gray-600">{user.itemsSold}</td>
-                          <td className="p-4 text-gray-600">{user.rating > 0 ? user.rating : 'N/A'}</td>
-                          <td className="p-4">
-                            <div className="flex space-x-2">
-                              <Button size="sm" variant="outline">View</Button>
-                              <Button size="sm" variant="outline">Edit</Button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+              <CardContent className="p-12 text-center">
+                <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Users Yet</h3>
+                <p className="text-gray-600">Users will appear here once they register</p>
               </CardContent>
             </Card>
           </TabsContent>
@@ -294,58 +199,13 @@ const Admin = () => {
               </Select>
             </div>
             
-            <div className="space-y-4">
-              {flaggedItems.map((item) => (
-                <Card key={item.id}>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <img 
-                        src={item.image} 
-                        alt={item.title}
-                        className="w-20 h-20 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between mb-2">
-                          <div>
-                            <h3 className="font-semibold text-gray-900">{item.title}</h3>
-                            <p className="text-sm text-gray-600">by {item.seller}</p>
-                          </div>
-                          <Badge 
-                            variant={
-                              item.status === 'pending' ? 'destructive' :
-                              item.status === 'under-review' ? 'secondary' : 'default'
-                            }
-                          >
-                            {item.status.replace('-', ' ')}
-                          </Badge>
-                        </div>
-                        <div className="mb-3">
-                          <p className="text-sm text-gray-600">
-                            <strong>Reason:</strong> {item.reason}
-                          </p>
-                          <p className="text-sm text-gray-600">
-                            <strong>Reported:</strong> {item.reportDate}
-                          </p>
-                        </div>
-                        <div className="flex space-x-2">
-                          <Button size="sm" className="bg-green-500 hover:bg-green-600">
-                            <CheckCircle className="w-4 h-4 mr-1" />
-                            Approve
-                          </Button>
-                          <Button size="sm" variant="destructive">
-                            <XCircle className="w-4 h-4 mr-1" />
-                            Remove
-                          </Button>
-                          <Button size="sm" variant="outline">
-                            View Details
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <Card>
+              <CardContent className="p-12 text-center">
+                <AlertTriangle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Reports</h3>
+                <p className="text-gray-600">Flagged items will appear here when reported</p>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="activity" className="space-y-6">
@@ -354,34 +214,10 @@ const Admin = () => {
               <CardHeader>
                 <CardTitle>Recent Activity</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {systemActivity.map((activity, index) => (
-                    <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                          activity.type === 'user' ? 'bg-blue-100' :
-                          activity.type === 'sale' ? 'bg-green-100' :
-                          activity.type === 'report' ? 'bg-red-100' : 'bg-purple-100'
-                        }`}>
-                          {activity.type === 'user' && <Users className="w-5 h-5 text-blue-600" />}
-                          {activity.type === 'sale' && <DollarSign className="w-5 h-5 text-green-600" />}
-                          {activity.type === 'report' && <AlertTriangle className="w-5 h-5 text-red-600" />}
-                          {activity.type === 'admin' && <Shield className="w-5 h-5 text-purple-600" />}
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">{activity.action}</p>
-                          <p className="text-sm text-gray-600">
-                            {activity.user && `User: ${activity.user}`}
-                            {activity.item && `Item: ${activity.item}`}
-                            {activity.detail && `Detail: ${activity.detail}`}
-                          </p>
-                        </div>
-                      </div>
-                      <span className="text-sm text-gray-500">{activity.time}</span>
-                    </div>
-                  ))}
-                </div>
+              <CardContent className="p-12 text-center">
+                <Shield className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Activity</h3>
+                <p className="text-gray-600">System activity will be tracked here</p>
               </CardContent>
             </Card>
           </TabsContent>
