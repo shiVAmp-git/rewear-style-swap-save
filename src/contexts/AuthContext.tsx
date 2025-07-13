@@ -30,6 +30,7 @@ interface AuthContextType {
   isAdmin: boolean;
   isCustomer: boolean;
   isDeliveryPartner: boolean;
+  isSupabaseConfigured: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -49,7 +50,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
+  // Check if Supabase is properly configured
+  const isSupabaseConfigured = !!(
+    import.meta.env.VITE_SUPABASE_URL && 
+    import.meta.env.VITE_SUPABASE_ANON_KEY &&
+    import.meta.env.VITE_SUPABASE_URL !== 'https://your-project.supabase.co'
+  );
+
   useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLoading(false);
+      return;
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -77,9 +90,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [isSupabaseConfigured]);
 
   const loadUserProfile = async (userId: string) => {
+    if (!isSupabaseConfigured) return;
+    
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -102,6 +117,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signUp = async (email: string, password: string, userData: Partial<UserProfile>) => {
+    if (!isSupabaseConfigured) {
+      toast({
+        title: "Configuration Required",
+        description: "Please connect to Supabase first",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       const { data, error } = await supabase.auth.signUp({
@@ -149,6 +173,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signIn = async (email: string, password: string) => {
+    if (!isSupabaseConfigured) {
+      toast({
+        title: "Configuration Required",
+        description: "Please connect to Supabase first",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       const { error } = await supabase.auth.signInWithPassword({
@@ -175,6 +208,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    if (!isSupabaseConfigured) return;
+    
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
@@ -193,7 +228,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
-    if (!user) throw new Error('No user logged in');
+    if (!user || !isSupabaseConfigured) throw new Error('No user logged in or Supabase not configured');
 
     try {
       const { error } = await supabase
@@ -231,6 +266,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     isAdmin: profile?.role === 'admin',
     isCustomer: profile?.role === 'customer',
     isDeliveryPartner: profile?.role === 'delivery_partner',
+    isSupabaseConfigured,
   };
 
   return (

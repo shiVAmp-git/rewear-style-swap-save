@@ -4,8 +4,9 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import SupabaseSetupNotice from "@/components/SupabaseSetupNotice";
 import Index from "./pages/Index";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
@@ -20,6 +21,63 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+const AppContent = () => {
+  const { isSupabaseConfigured } = useAuth();
+
+  if (!isSupabaseConfigured) {
+    return <SupabaseSetupNotice />;
+  }
+
+  return (
+    <Routes>
+      <Route path="/" element={<Index />} />
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      
+      {/* Protected Routes */}
+      <Route path="/browse" element={
+        <ProtectedRoute>
+          <Browse />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/list-item" element={
+        <ProtectedRoute requiredRole={["customer", "admin"]}>
+          <ListItem />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/item/:id" element={
+        <ProtectedRoute>
+          <ProductDetail />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/dashboard" element={
+        <ProtectedRoute requiredRole={["customer", "admin"]}>
+          <Dashboard />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/delivery-dashboard" element={
+        <ProtectedRoute requiredRole="delivery_partner">
+          <DeliveryDashboard />
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/admin" element={
+        <ProtectedRoute requiredRole="admin">
+          <Admin />
+        </ProtectedRoute>
+      } />
+      
+      {/* Catch-all route */}
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -27,52 +85,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/unauthorized" element={<Unauthorized />} />
-            
-            {/* Protected Routes */}
-            <Route path="/browse" element={
-              <ProtectedRoute>
-                <Browse />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/list-item" element={
-              <ProtectedRoute requiredRole={["customer", "admin"]}>
-                <ListItem />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/item/:id" element={
-              <ProtectedRoute>
-                <ProductDetail />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/dashboard" element={
-              <ProtectedRoute requiredRole={["customer", "admin"]}>
-                <Dashboard />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/delivery-dashboard" element={
-              <ProtectedRoute requiredRole="delivery_partner">
-                <DeliveryDashboard />
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/admin" element={
-              <ProtectedRoute requiredRole="admin">
-                <Admin />
-              </ProtectedRoute>
-            } />
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AppContent />
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
